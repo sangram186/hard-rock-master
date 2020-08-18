@@ -11,6 +11,8 @@ function getLyrics() {
   .then(response => response.json())
   .then(data =>  getResult(data));
   searchLyrics.value = '';
+  showLyrics.innerHTML = '';
+
 }
 
 // Showing result according to search.
@@ -35,7 +37,8 @@ function getResult(data){
 
     showResult(finalResults);
 }
-
+// Made the variable global because I have to remove old lyrics after searching for new songs
+let showLyrics = document.getElementById('fancy-lyrics');
 function showResult(data){
     // fancy result
     for(let i = 0; i < data.length; i++){
@@ -69,6 +72,7 @@ function showResult(data){
 
       singleResult.appendChild(btnDiv);
       searchResult.appendChild(singleResult);
+      // singleResult.style.transition = 'all 5s ease-in';
     }
     // Get lyrics Button
     const getLyricsButton = document.querySelectorAll('.get-lyrics-fancy');
@@ -76,8 +80,7 @@ function showResult(data){
       e.addEventListener('click', k => {
         const fancyLyricsTitle = k.target.parentElement.parentElement.children[0].children[1].innerText;
         const fancyLyricsArtist = k.target.parentElement.parentElement.children[0].children[2].children[0].innerText;
-        let showLyrics = document.getElementById('fancy-lyrics');
-
+        
         document.getElementById('lyrics-title').innerText = `${fancyLyricsTitle} -by- ${fancyLyricsArtist}`;
         fetch(`https://api.lyrics.ovh/v1/${fancyLyricsArtist.toLowerCase()}/${fancyLyricsTitle.toLowerCase()}`) 
         .then(response => response.json())
