@@ -2,21 +2,15 @@ const searchBtn = document.getElementById('search-btn');
 searchBtn.addEventListener('click', getLyrics);
 
 const searchLyrics = document.getElementById('search-lyrics');
-
-searchLyrics.addEventListener('input', () => {
-  if(searchLyrics.value.length <= 1){
-    removeResult();
-    return;
-  }
-})
-
+searchLyrics.addEventListener('focus', removeResult);
 
 // Getting Lyrics information
 
 function getLyrics() {
   fetch(`https://api.lyrics.ovh/suggest/${searchLyrics.value}`)
   .then(response => response.json())
-  .then(data =>  getResult(data))
+  .then(data =>  getResult(data));
+  searchLyrics.value = '';
 }
 
 // Showing result according to search.
@@ -74,7 +68,6 @@ function showResult(data){
       btnDiv.appendChild(button);
 
       singleResult.appendChild(btnDiv);
-
       searchResult.appendChild(singleResult);
     }
     // Get lyrics Button
@@ -101,7 +94,7 @@ function showResult(data){
     })
 }
 // If input fields value less then two the all suggestion will remove..
+const suggestion = document.getElementById('fancy-result');
 function removeResult(){
-  const suggestion = document.getElementById('fancy-result');
   suggestion.innerHTML = '';
 }
